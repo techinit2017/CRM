@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
+	<application>
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+
+
+		<locale-config>
+			<default-locale>en</default-locale>
+		</locale-config>
+
+		<resource-bundle>
+			<base-name>resources.application</base-name>
+			<var>msg</var>
+		</resource-bundle>
+	</application>
+	<managed-bean>
+		<managed-bean-name>configurationController</managed-bean-name>
+		<managed-bean-class>com.le.controller.ConfigurationController</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>configurationService</property-name>
+			<value>#{configService}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>loginContoller</managed-bean-name>
+		<managed-bean-class>com.le.controller.LoginContoller</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>customerController</managed-bean-name>
+		<managed-bean-class>com.le.controller.CustomerController</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>customerService</property-name>
+			<value>#{customerService}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>salesController</managed-bean-name>
+		<managed-bean-class>com.le.controller.SalesController</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>salesService</property-name>
+			<value>#{salesService}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Configuration Bean information</description>
+		<managed-bean-name>configurationBean</managed-bean-name>
+		<managed-bean-class>com.le.managedBean.ConfigurationBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<description>Bean to Hold Customer Information</description>
+		<managed-bean-name>customerBean</managed-bean-name>
+		<managed-bean-class>com.le.managedBean.CustomerBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<description>Bean to hold and manage User Session information</description>
+		<managed-bean-name>userBean</managed-bean-name>
+		<managed-bean-class>com.le.managedBean.UserBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
+	<!--  Define Navigation Rule -->
+
+	<navigation-rule>
+		<from-view-id>login.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>Success</from-outcome>
+			<to-view-id>index.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+</faces-config>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CRM</title>
+<link rel="icon" href="img/favicon.png" type="image/gif" sizes="16x16">
+<link rel="stylesheet"
+	href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+<script type="text/javascript">
+	(function() {
+		'use strict';
+		var app = angular.module('firstApplication', [ 'ngMaterial' ]);
+		app.controller('firstController', function($scope) {
+			$scope.hello = {};
+			$scope.hello.title = "welcome to angular js";
+
+			$scope.hello.name = "test";
+			$scope.hello.outputMsg = $scope.hello.title + $scope.hello.name;
+
+			var user = this;
+			user.name = "temp";
+			user.userlist = [ "User-1", "User-2", "User-3" ];
+		});
+		app.controller('ExampleController', [ '$scope', function($scope) {
+			$scope.data = {
+				singleSelect : null,
+				multipleSelect : [],
+				option1 : 'option-1',
+			}
+		} ]);
+		/* app.controller('UserListCTRL',function(){
+		   var user=this;
+		    user.name="temp";
+		    user.userlist=["User-1","User-2","User-3"];
+		    /!*user.addUser=function () {
+		     user.userlist.push(user.name);
+		    }*!/
+		});*/
+
+		app
+				.controller(
+						"httpController",
+						function($scope, $http) {
+							$scope.isLoading = true;
+
+							/* $http({
+							     method: 'getRelease',
+							     url:'http://localhost:8080/SAI-HService/rest/getUOW/getRelease',
+
+							 }).success(function());*/
+
+							var response = $http
+									.get('http://localhost:8080/SAI-HService/rest/getUOW/getRelease');
+
+							response.success(function(data) {
+								//
+								$scope.lookup = data;
+								console
+										.log("[main] # of items: "
+												+ data.length)
+								angular.forEach(data, function(element) {
+									console
+											.log("[main] actor: "
+													+ element.name);
+								});
+								$scope.isLoading = false;
+
+							})
+
+						});
+
+		app
+				.controller(
+						'getBooksCTRL',
+						function($scope, $http) {
+							var response = $http
+									.get('http://localhost:8080/SAI-HService/rest/hello/getallbook');
+
+							response.success(function(data) {
+								//
+								$scope.books = data;
+								console
+										.log("[main] # of items: "
+												+ data.length)
+								angular.forEach(data, function(element) {
+									console
+											.log("[main] actor: "
+													+ element.name);
+								});
+
+							})
+
+						});
+
+	})();
+</script>
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body ng-app="firstApplication">
+
+	<!--<md-progress-circular md-mode="indeterminate"/>-->
+
+	<!--<md-progress-circular md-mode="buffer"/>-->
+
+
+
+	<!--<md-progress-linear md-mode="indeterminate"/>-->
+
+	<!--<md-progress-linear md-mode="buffer" value="100" md-buffer-value="10"></md-progress-linear>-->
+
+	<div>
+		<!--<p>Name : <input type="text" ng-model="name"></p>
+    <h1>Hello {{name}}</h1>-->
+
+		<p>
+			Name : <input type="text" ng-model="name">
+		</p>
+		<h1>Hello {{name}}</h1>
+		<div ng-controller="firstController">
+			<h1>Original - {{hello.title}}</h1>
+			<input type="text" ng-model="hello.name" />
+			<h1 style="color: red">{{hello.outputMsg + hello.name}}</h1>
+
+
+
+		</div>
+
+		<div ng-controller="ExampleController">
+			<select name="multipleSelect" id="multipleSelect"
+				ng-model="data.singleSelect" multiple>
+				<option value="option-1">Option 1</option>
+				<option value="option-2">Option 2</option>
+				<option value="option-3">Option 3</option>
+			</select> <br> multipleSelect = {{data.singleSelect}}<br />
+
+		</div>
+		<!-- <div ng-controller="httpController">
+        <md-select>
+            <md-option ng-value="a.itemCode" ng-repeat="a in lookup">{{ a.itemCode +  a.itemDesc }}</md-option>
+        </md-select>
+    </div>-->
+		<div ng-controller="httpController">
+			loading status- {{isLoading}}
+			<table>
+				<tr>
+					<md-progress-circular md-mode="indeterminate" ng-show="isLoading" />
+				</tr>
+				<tr>
+					<td>Item Code</td>
+					<td>Item Desc</td>
+				</tr>
+				<tr ng-repeat="a in lookup">
+					<td>{{a.itemCode}}</td>
+					<td>{{a.itemDesc}}</td>
+				</tr>
+			</table>
+
+
+
+
+		</div>
+
+	</div>
+</body>
+</html>
